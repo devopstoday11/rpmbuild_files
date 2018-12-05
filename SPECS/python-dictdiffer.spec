@@ -5,12 +5,12 @@
 %global library dictdiffer
 
 Name:       python-%{library}
-Version:    0.6.1
+Version:    0.7.1
 Release:    1%{?dist}
 Summary:    Dictdiffer is a module that helps you to diff and patch dictionaries 
 License:    MIT
-URL:        https://github.com/daveoncode/python-string-utils
-Source0:    https://github.com/daveoncode/python-string-utils/%{library}-%{version}.tar.gz
+URL:        https://github.com/inveniosoftware/dictdiffer
+Source0:    https://github.com/inveniosoftware/dictdiffer/archive/v%{version}.tar.gz
 BuildArch:  noarch
 
 %package -n python2-%{library}
@@ -109,3 +109,6 @@ sed -i -e /pytest-runner/d setup.py
 * Wed May 10 2017 Jason Montleon <jmontleo@redhat.com> 0.6.1-1
 - Initial Build
 
+* Wed Dec 4 2018 John Kim <jkim@redhat.com> 0.7.1-1
+- Bump Versio to 0.7.1-1
+- Fixed URL, Source0
