@@ -79,6 +79,13 @@ mv %buildroot/usr/README/README.md %buildroot/%_defaultdocdir/python3-%{library}
 %check
 
 %if 0%{?with_python2}
+%{__python2} tests.py
+%endif
+%if 0%{?with_python3}
+%{__python3} tests.py
+%endif
+
+%if 0%{?with_python2}
 %files -n python2-%{library}
 %license LICENSE
 %doc %{_defaultdocdir}/python2-%{library}/README.md
@@ -99,6 +106,7 @@ mv %buildroot/usr/README/README.md %buildroot/%_defaultdocdir/python3-%{library}
 * Tue Dec 4 2018 John Kim <jkim@redhat.com> 0.6.0-3
 - Fixed URL, Source0
 - Enable disable python3 for rhel
+- Enable test
 
 * Wed May 10 2017 Jason Montleon <jmontleo@redhat.com> 0.6.0-2
 - Fix python_provide for EL7 python3
