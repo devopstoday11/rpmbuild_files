@@ -27,6 +27,17 @@ BuildRequires: python-pytest-runner
 BuildRequires: python-setuptools
 BuildRequires: git
 
+%if 0%{?fedora}
+BuildRequires: python2-pytest
+BuildRequires: python2-pytest-cache
+BuildRequires: python2-pytest-pep8
+BuildRequires: python2-pytest-cov
+BuildRequires: python2-pydocstyle
+BuildRequires: python2-isort
+BuildRequires: python2-coverage
+BuildRequires: python2-mock
+%endif
+
 Requires: python2
 
 %description -n python2-%{library}
@@ -36,14 +47,36 @@ Dictdiffer is a module that helps you to diff and patch dictionaries
 %if 0%{?with_python3}
 %package -n python3-%{library}
 Summary: Dictdiffer is a module that helps you to diff and patch dictionaries
+%if 0%{?rhel}
+%{?python_provide:%python_provide python%{python3_pkgversion}-%{library}}
+%else
 %{?python_provide:%python_provide python3-%{library}}
+%endif
 
+%if 0%{?rhel}
+BuildRequires: python%{python3_pkgversion}-devel
+BuildRequires: python%{python3_pkgversion}-pytest-runner
+BuildRequires: python%{python3_pkgversion}-setuptools
+%else
 BuildRequires: python3-devel
 BuildRequires: python3-pytest-runner
 BuildRequires: python3-setuptools
+BuildRequires: python3-pytest
+BuildRequires: python3-pytest-cache
+BuildRequires: python3-pytest-pep8
+BuildRequires: python3-pytest-cov
+BuildRequires: python3-pydocstyle
+BuildRequires: python3-isort
+BuildRequires: python3-coverage
+BuildRequires: python3-mock
+%endif
 BuildRequires: git
 
+%if 0%{?rhel}
+Requires: python%{python3_pkgversion}
+%else
 Requires: python3
+%endif
 
 %description -n python3-%{library}
 Dictdiffer is a module that helps you to diff and patch dictionaries
@@ -59,7 +92,7 @@ BuildRequires: python3-sphinx
 BuildRequires: python3-recommonmark
 %else
 BuildRequires: python2-sphinx
-BuildRequires: python2-recommonmark
+BuildRequires: python3-recommonmark
 %endif
 %description doc
 %{summary}
@@ -75,12 +108,16 @@ Dictdiffer is a module that helps you to diff and patch dictionaries
 sed -i -e /pytest-runner/d setup.py
 %endif
 
+# python-check-manifest package does not exist
+sed -i -e /check-manifest/d setup.py
+
 # Let's handle dependencies ourseleves
 
 %build
 %if 0%{?with_python2}
 %py2_build
 %endif
+
 %if 0%{?with_python3}
 %py3_build
 %endif
@@ -94,11 +131,23 @@ sphinx-build docs/ html
 %if 0%{?with_python2}
 %py2_install
 %endif
+
 %if 0%{?with_python3}
 %py3_install
 %endif
 
 %check
+
+%if 0%{?fedora}
+%if 0%{?with_python2}
+%{__python2} setup.py test
+%endif
+
+%if 0%{?with_python3}
+%{__python3} setup.py test
+%endif
+
+%endif # ?fedora
 
 %if 0%{?with_python2}
 %files -n python2-%{library}
@@ -126,6 +175,7 @@ sphinx-build docs/ html
 - Fixed URL, Source0
 - Enable disable python3 for rhel
 - Add docs for fedora
+- Enable tests for fedora
 
 * Wed May 10 2017 Jason Montleon <jmontleo@redhat.com> 0.6.1-1
 - Initial Build
