@@ -87,7 +87,7 @@ BuildRequires: python2-recommonmark
 Python client for the OpenShift API 
 
 %prep
-%autosetup -n openshift-restclient-python-%(version} -S git
+%autosetup -n openshift-restclient-python-%{version} -S git
 #there is no include in RHEL7 setuptools find_packages
 #the requirements are also done in an non-backwards compatible way
 %if 0%{?rhel}
