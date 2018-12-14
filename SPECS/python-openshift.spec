@@ -19,7 +19,7 @@ Name:       python-%{library}
 Version:    0.8.1
 Release:    1%{?dist}
 Summary:    Python client for the OpenShift API  
-License:    MIT
+License:    ASL 2.0
 URL:        https://github.com/openshift/openshift-restclient-python
 Source0:    https://github.com/openshift/openshift-restclient-python/archive/v%{version}.tar.gz
 BuildArch:  noarch
@@ -98,7 +98,7 @@ sed -i -e "s/extract_requirements('requirements.txt')/REQUIRES/g" setup.py
 %endif
 
 %build
-%if %{with python2}
+%if 0%{?with_python2}
 %py2_build
 %endif
 %if 0%{?with_python3}
@@ -111,7 +111,7 @@ sphinx-build doc/source/ html
 %endif
 
 %install
-%if %{with python2}
+%if 0%{?with_python2}
 %py2_install
 %endif
 %if 0%{?with_python3}
@@ -121,7 +121,7 @@ sphinx-build doc/source/ html
 %check
 #test dependencies are unpackaged
 
-%if %{with python2}
+%if 0%{?with_python2}
 %files -n python2-%{library}
 %license LICENSE
 %{python2_sitelib}/%{library}/*
