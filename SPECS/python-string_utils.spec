@@ -86,18 +86,34 @@ A python module containing utility functions for strings
 
 %build
 %if 0%{?with_python2}
+%if 0%{?rhel}
+%py_build
+%else
 %py2_build
 %endif
+%endif
+
 %if 0%{?with_python3}
 %py3_build
 %endif
 
+%if 0%{?fedora}
+sphinx-build docs/ html
+%{__rm} -rf html/.buildinfo
+%endif
+
 %install
 %if 0%{?with_python2}
+
+%if 0%{?rhel}
+%py_install
+%else
 %py2_install
+%endif
+
 mkdir -p %buildroot/%_defaultdocdir/python2-string_utils
 mv %buildroot/usr/README/README.md %buildroot/%_defaultdocdir/python2-%{library}
-%endif
+%endif # with_python2
 
 %if 0%{?with_python3}
 %py3_install
@@ -117,15 +133,27 @@ mv %buildroot/usr/README/README.md %buildroot/%_defaultdocdir/python3-%{library}
 %if 0%{?with_python2}
 %files -n python2-%{library}
 %license LICENSE
+
+%if 0%{?rhel}
 %doc %{_defaultdocdir}/python2-%{library}/README.md
+%else
+%doc README.md
+%endif
+
 %{python2_sitelib}/%{library}.*
 %{python2_sitelib}/python_%{library}-*.egg-info
-%endif
+%endif # with_python2
 
 %if 0%{?with_python3}
 %files -n python3-%{library}
 %license LICENSE
+
+%if 0%{?rhel}
 %doc %{_defaultdocdir}/python3-%{library}/README.md
+%else
+%doc README.md
+%endif
+
 %{python3_sitelib}/%{library}.*
 %{python3_sitelib}/__pycache__/%{library}.*
 %{python3_sitelib}/python_%{library}-*.egg-info
