@@ -50,12 +50,6 @@ BuildRequires: python3-setuptools
 %endif
 BuildRequires: git
 
-%if 0%{?rhel}
-Requires: python%{python3_pkgversion}
-%else
-Requires: python3
-%endif
-
 %description -n python3-%{library}
 A python module containing utility functions for strings
 %endif # with_python3
@@ -64,13 +58,12 @@ A python module containing utility functions for strings
 %if 0%{?fedora}
 %package doc
 Summary: Documentation for %{name}.
-Provides: %{name}-%{version}-doc
 %if 0%{?with_python3}
 BuildRequires: python3-sphinx
 BuildRequires: python3-recommonmark
 %else
 BuildRequires: python2-sphinx
-BuildRequires: python3-recommonmark
+BuildRequires: python2-recommonmark
 %endif
 %description doc
 %{summary}
