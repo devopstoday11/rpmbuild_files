@@ -10,7 +10,7 @@
 
 Name:       python-%{library}
 Version:    0.7.1
-Release:    1%{?dist}
+Release:    2%{?dist}
 Summary:    Dictdiffer is a module that helps you to diff and patch dictionaries
 License:    MIT
 URL:        https://github.com/inveniosoftware/dictdiffer
@@ -37,8 +37,6 @@ BuildRequires: python2-isort
 BuildRequires: python2-coverage
 BuildRequires: python2-mock
 %endif
-
-Requires: python2
 
 %description -n python2-%{library}
 Dictdiffer is a module that helps you to diff and patch dictionaries
@@ -72,12 +70,6 @@ BuildRequires: python3-mock
 %endif
 BuildRequires: git
 
-%if 0%{?rhel}
-Requires: python%{python3_pkgversion}
-%else
-Requires: python3
-%endif
-
 %description -n python3-%{library}
 Dictdiffer is a module that helps you to diff and patch dictionaries
 %endif # with_python3
@@ -92,7 +84,7 @@ BuildRequires: python3-sphinx
 BuildRequires: python3-recommonmark
 %else
 BuildRequires: python2-sphinx
-BuildRequires: python3-recommonmark
+BuildRequires: python2-recommonmark
 %endif
 %description doc
 %{summary}
@@ -125,6 +117,7 @@ sed -i -e /check-manifest/d setup.py
 %if 0%{?fedora}
 sphinx-build docs/ html
 %{__rm} -rf html/.buildinfo
+%{__rm} -rf html/.doctrees
 %endif
 
 %install
@@ -170,6 +163,10 @@ sphinx-build docs/ html
 %endif
 
 %changelog
+* Tue Dec 18 2018 Dniel Mellado <dmellado@redhat.com> 0.7.1-2
+- Remove inconsistency in build requirements
+- Align spec in SRPM
+
 * Tue Dec 4 2018 John Kim <jkim@redhat.com> 0.7.1-1
 - Bump Versio to 0.7.1-1
 - Fixed URL, Source0
