@@ -78,7 +78,6 @@ Dictdiffer is a module that helps you to diff and patch dictionaries
 %if 0%{?fedora}
 %package doc
 Summary: Documentation for %{name}.
-Provides: %{name}-%{version}-doc
 %if 0%{?with_python3}
 BuildRequires: python3-sphinx
 BuildRequires: python3-recommonmark
