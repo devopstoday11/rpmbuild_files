@@ -10,7 +10,7 @@
 
 Name:       python-%{library}
 Version:    0.6.0
-Release:    2%{?dist}
+Release:    4%{?dist}
 Summary:    A python module containing utility functions for strings
 License:    MIT
 URL:        https://github.com/daveoncode/python-string-utils
@@ -93,6 +93,7 @@ A python module containing utility functions for strings
 %if 0%{?fedora}
 sphinx-build docs/ html
 %{__rm} -rf html/.buildinfo
+%{__rm} -rf html/.doctrees
 %endif
 
 %install
@@ -105,13 +106,15 @@ sphinx-build docs/ html
 %endif
 
 mkdir -p %buildroot/%_defaultdocdir/python2-string_utils
-mv %buildroot/usr/README/README.md %buildroot/%_defaultdocdir/python2-%{library}
+install -p -m 644 %buildroot/usr/README/README.md %buildroot/%_defaultdocdir/python2-%{library}
+%{__rm} -f %buildroot/usr/README/README.md
 %endif # with_python2
 
 %if 0%{?with_python3}
 %py3_install
 mkdir -p %buildroot/%_defaultdocdir/python3-string_utils
-mv %buildroot/usr/README/README.md %buildroot/%_defaultdocdir/python3-%{library}
+install -p -m 644 %buildroot/usr/README/README.md %buildroot/%_defaultdocdir/python3-%{library}
+%{__rm} -f %buildroot/usr/README/README.md
 %endif
 
 %check
@@ -125,7 +128,7 @@ mv %buildroot/usr/README/README.md %buildroot/%_defaultdocdir/python3-%{library}
 
 %if 0%{?with_python2}
 %files -n python2-%{library}
-%license LICENSE
+%license %attr(644,-,-) LICENSE
 
 %if 0%{?rhel}
 %doc %{_defaultdocdir}/python2-%{library}/README.md
@@ -139,7 +142,7 @@ mv %buildroot/usr/README/README.md %buildroot/%_defaultdocdir/python3-%{library}
 
 %if 0%{?with_python3}
 %files -n python3-%{library}
-%license LICENSE
+%license %attr(644,-,-) LICENSE
 
 %if 0%{?rhel}
 %doc %{_defaultdocdir}/python3-%{library}/README.md
@@ -154,11 +157,17 @@ mv %buildroot/usr/README/README.md %buildroot/%_defaultdocdir/python3-%{library}
 
 %if 0%{?fedora}
 %files doc
-%license LICENSE
+%license %attr(644,-,-) LICENSE
 %doc html
 %endif
 
 %changelog
+* Wed Dec 19 2018 Daniel Mellado <dmellado@redhat.com> 0.6.0-4
+- Fix rpmlint permissions issues
+- Fix docs
+- Fix doctree removal
+- Fix version mismatch in spec
+
 * Tue Dec 4 2018 John Kim <jkim@redhat.com> 0.6.0-3
 - Fixed URL, Source0
 - Enable disable python3 for rhel
