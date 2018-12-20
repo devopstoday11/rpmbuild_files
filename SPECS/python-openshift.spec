@@ -17,8 +17,8 @@
 
 Name:       python-%{library}
 Version:    0.8.1
-Release:    1%{?dist}
-Summary:    Python client for the OpenShift API  
+Release:    2%{?dist}
+Summary:    Python client for the OpenShift API
 License:    ASL 2.0
 URL:        https://github.com/openshift/openshift-restclient-python
 Source0:    https://github.com/openshift/openshift-restclient-python/archive/v%{version}.tar.gz
@@ -27,7 +27,7 @@ Epoch:      1
 
 %if 0%{?with_python2}
 %package -n python2-%{library}
-Summary:    Python client for the OpenShift API  
+Summary:    Python client for the OpenShift API
 %{?python_provide:%python_provide python2-%{library}}
 
 BuildRequires: python2-devel
@@ -49,7 +49,7 @@ Python client for the kubernetes API.
 
 %if 0%{?with_python3}
 %package -n %{py3}-%{library}
-Summary: Python client for the OpenShift API 
+Summary: Python client for the OpenShift API
 BuildRequires: %{py3}-devel
 BuildRequires: %{py3}-setuptools
 BuildRequires: git
@@ -64,14 +64,13 @@ Requires: %{py3}-six
 Requires: %{py3}-jinja2
 
 %description -n %{py3}-%{library}
-Python client for the OpenShift API 
+Python client for the OpenShift API
 %endif # with_python3
 
 #recommonmark not available for docs in EPEL
 %if 0%{?fedora}
 %package doc
 Summary: Documentation for %{name}.
-Provides: %{name}-doc
 %if 0%{?with_python3}
 BuildRequires: %{py3}-sphinx
 BuildRequires: %{py3}-recommonmark
@@ -84,7 +83,7 @@ BuildRequires: python2-recommonmark
 %endif
 
 %description
-Python client for the OpenShift API 
+Python client for the OpenShift API
 
 %prep
 %autosetup -n openshift-restclient-python-%{version} -S git
@@ -108,6 +107,7 @@ sed -i -e "s/extract_requirements('requirements.txt')/REQUIRES/g" setup.py
 %if 0%{?fedora}
 sphinx-build doc/source/ html
 %{__rm} -rf html/.buildinfo
+%{__rm} -rf html/.doctrees
 %endif
 
 %install
@@ -150,6 +150,10 @@ sphinx-build doc/source/ html
 %endif
 
 %changelog
+* Thu Dec 20 2018 Daniel Mellado <dmellado@redhat.com> 0.8.1-2
+- Ensure .doctrees directory is also cleaned up
+- Remove unnecessary provides name setting
+
 * Tue Nov 06 2018 Jason Montleon <jmontleo@redhat.com> 0.8.1-1
 - Bump version (fabian@fabianism.us)
 - [release-0.8] When searching for resources, prefer non-List matches (#232)
@@ -267,7 +271,7 @@ sphinx-build doc/source/ html
   (ceridwen@users.noreply.github.com)
 
 * Fri Nov 03 2017 Jason Montleon <jmontleo@redhat.com> 0.3.4-2
-- Update version 
+- Update version
 
 * Fri Nov 03 2017 Jason Montleon <jmontleo@redhat.com> 0.3.3-8
 - Bug 1508969 - Add foreground propagation policy (david.j.zager@gmail.com)
@@ -290,13 +294,13 @@ sphinx-build doc/source/ html
 - ignore requirements.txt in packaging
 
 * Fri Oct 06 2017 Jason Montleon <jmontleo@redhat.com> 0.3.2-4
-- 
+-
 
 * Fri Oct 06 2017 Jason Montleon <jmontleo@redhat.com> 0.3.2-3
 - make source name match package name
 
 * Fri Oct 06 2017 Jason Montleon <jmontleo@redhat.com> 0.3.2-2
-- Fix source name 
+- Fix source name
 
 * Fri Oct 06 2017 Jason Montleon <jmontleo@redhat.com> 0.3.2-1
 - new package built with tito
